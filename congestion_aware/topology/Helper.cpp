@@ -21,6 +21,7 @@ std::shared_ptr<Topology> NetworkAnalyticalCongestionAware::construct_topology(
     const auto npus_counts_per_dim = network_parser.get_npus_counts_per_dim();
     const auto bandwidths_per_dim = network_parser.get_bandwidths_per_dim();
     const auto latencies_per_dim = network_parser.get_latencies_per_dim();
+    const auto encryption_latency = network_parser.get_encryption_latency();
 
     // for now, congestion_aware backend supports 1-dim topology only
     if (dims_count != 1) {
@@ -33,14 +34,15 @@ std::shared_ptr<Topology> NetworkAnalyticalCongestionAware::construct_topology(
     const auto npus_count = npus_counts_per_dim[0];
     const auto bandwidth = bandwidths_per_dim[0];
     const auto latency = latencies_per_dim[0];
+    const auto enc_latency = encryption_latency[0];
 
     switch (topology_type) {
     case TopologyBuildingBlock::Ring:
-        return std::make_shared<Ring>(npus_count, bandwidth, latency);
+        return std::make_shared<Ring>(npus_count, bandwidth, latency, enc_latency);
     case TopologyBuildingBlock::Switch:
-        return std::make_shared<Switch>(npus_count, bandwidth, latency);
+        return std::make_shared<Switch>(npus_count, bandwidth, latency, enc_latency);
     case TopologyBuildingBlock::FullyConnected:
-        return std::make_shared<FullyConnected>(npus_count, bandwidth, latency);
+        return std::make_shared<FullyConnected>(npus_count, bandwidth, latency, enc_latency);
     default:
         // shouldn't reaach here
         std::cerr << "[Error] (network/analytical/congestion_aware) " << "not supported basic-topology" << std::endl;

@@ -37,13 +37,15 @@ void Link::set_event_queue(std::shared_ptr<EventQueue> event_queue_ptr) noexcept
     Link::event_queue = std::move(event_queue_ptr);
 }
 
-Link::Link(const Bandwidth bandwidth, const Latency latency) noexcept
+Link::Link(const Bandwidth bandwidth, const Latency latency, const Latency encryption_latency) noexcept
     : bandwidth(bandwidth),
       latency(latency),
+      encryption_latency(encryption_latency),
       pending_chunks(),
       busy(false) {
     assert(bandwidth > 0);
     assert(latency >= 0);
+    assert(encryption_latency >= 0);
 
     // convert bandwidth from GB/s to B/ns
     bandwidth_Bpns = bw_GBps_to_Bpns(bandwidth);
@@ -102,7 +104,8 @@ EventTime Link::communication_delay(const ChunkSize chunk_size) const noexcept {
     assert(chunk_size > 0);
 
     // calculate communication delay
-    const auto delay = latency + (static_cast<Bandwidth>(chunk_size) / bandwidth_Bpns);
+    // add encryption + decryption latencies
+    const auto delay = latency + (static_cast<Bandwidth>(chunk_size) / bandwidth_Bpns) + encryption_latency * 2;
 
     // return communication delay in EventTime type
     return static_cast<EventTime>(delay);

@@ -33,7 +33,7 @@ class FullyConnected final : public BasicTopology {
      * @param bandwidth bandwidth of each link
      * @param latency latency of each link
      */
-    FullyConnected(int npus_count, Bandwidth bandwidth, Latency latency) noexcept;
+    FullyConnected(int npus_count, Bandwidth bandwidth, Latency latency, Latency encryption_latency) noexcept;
 
     /**
      * Implementation of route function in Topology.

@@ -15,6 +15,7 @@ NetworkParser::NetworkParser(const std::string& path) noexcept : dims_count(-1) 
     bandwidth_per_dim = {};
     latency_per_dim = {};
     topology_per_dim = {};
+    encryption_latency = {};
 
     try {
         // load network config file
@@ -63,6 +64,12 @@ std::vector<TopologyBuildingBlock> NetworkParser::get_topologies_per_dim() const
     return topology_per_dim;
 }
 
+std::vector<Latency> NetworkParser::get_encryption_latency() const noexcept {
+    assert(dims_count > 0);
+
+    return encryption_latency;
+}
+
 void NetworkParser::parse_network_config_yml(const YAML::Node& network_config) noexcept {
     // parse topology_per_dim
     const auto topology_names = parse_vector<std::string>(network_config["topology"]);
@@ -78,6 +85,7 @@ void NetworkParser::parse_network_config_yml(const YAML::Node& network_config) n
     npus_count_per_dim = parse_vector<int>(network_config["npus_count"]);
     bandwidth_per_dim = parse_vector<Bandwidth>(network_config["bandwidth"]);
     latency_per_dim = parse_vector<Latency>(network_config["latency"]);
+    encryption_latency = parse_vector<Latency>(network_config["encryption_latency"]);
 
     // check the validity of the parsed network config
     check_validity();
@@ -145,6 +153,15 @@ void NetworkParser::check_validity() const noexcept {
     for (const auto& latency : latency_per_dim) {
         if (latency < 0) {
             std::cerr << "[Error] (network/analytical) " << "latency (" << latency << ") should be non-negative"
+                      << std::endl;
+            std::exit(-1);
+        }
+    }
+
+    // encryption latency should be non-negative
+    for (const auto& latency : encryption_latency) {
+        if (latency < 0) {
+            std::cerr << "[Error] (network/analytical) " << "encryption latency (" << latency << ") should be non-negative"
                       << std::endl;
             std::exit(-1);
         }

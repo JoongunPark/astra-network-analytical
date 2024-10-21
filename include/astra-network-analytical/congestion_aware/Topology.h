@@ -126,9 +126,10 @@ class Topology {
      * @param dest dest device id
      * @param bandwidth bandwidth of link
      * @param latency latency of link
+     * @param encryption_latency encryption latency of link
      * @param bidirectional true if connection is bidirectional, false otherwise
      */
-    void connect(DeviceId src, DeviceId dest, Bandwidth bandwidth, Latency latency, bool bidirectional = true) noexcept;
+    void connect(DeviceId src, DeviceId dest, Bandwidth bandwidth, Latency latency, Latency encryption_latency, bool bidirectional = true) noexcept;
 };
 
 }  // namespace NetworkAnalyticalCongestionAware

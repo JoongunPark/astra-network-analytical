@@ -7,10 +7,10 @@ topology: [ Switch ]  # Ring, Switch, FullyConnected
 npus_count: [ 8 ]  # number of NPUs
 
 # Bandwidth per each dimension
-bandwidth: [ 900.0 ]  # GB/s
+bandwidth: [ 128.0 ]  # GB/s
 
 # Latency per each dimension
 latency: [ 500.0 ]  # ns
 
-# Latency occurs at the end
-encryption_latency: [ 0.0 ]  # ns
+# Latency occurs at the both end
+encryption_latency: [ 25.0 ]  # ns

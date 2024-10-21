@@ -8,6 +8,8 @@ LICENSE file in the root directory of this source tree.
 #include "congestion_aware/Chunk.h"
 #include "congestion_aware/Helper.h"
 #include <iostream>
+#include <stdio.h>
+#include <string>
 
 using namespace NetworkAnalytical;
 using namespace NetworkAnalyticalCongestionAware;
@@ -18,16 +20,19 @@ void chunk_arrived_callback(void* const event_queue_ptr) {
 
     // print chunk arrival time
     const auto current_time = event_queue->get_current_time();
-    std::cout << "A chunk arrived at destination at time: " << current_time << " ns" << std::endl;
+//    std::cout << "A chunk arrived at destination at time: " << current_time << " ns" << std::endl;
 }
 
-int main() {
+int main(int argc, char**argv) {
     // Instantiate shared resources
     const auto event_queue = std::make_shared<EventQueue>();
     Topology::set_event_queue(event_queue);
+    std::string input_file = "./input/Ring.yml";
+
+    if (argc == 2) input_file = argv[1];
 
     // Parse network config and create topology
-    const auto network_parser = NetworkParser("../input/Ring.yml");
+    const auto network_parser = NetworkParser(input_file);
     const auto topology = construct_topology(network_parser);
     const auto npus_count = topology->get_npus_count();
     const auto devices_count = topology->get_devices_count();

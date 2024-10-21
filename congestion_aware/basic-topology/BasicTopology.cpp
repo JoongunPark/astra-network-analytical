@@ -12,9 +12,11 @@ using namespace NetworkAnalyticalCongestionAware;
 BasicTopology::BasicTopology(const int npus_count,
                              const int devices_count,
                              const Bandwidth bandwidth,
-                             const Latency latency) noexcept
+                             const Latency latency,
+                             const Latency encryption_latency) noexcept
     : bandwidth(bandwidth),
       latency(latency),
+      encryption_latency(encryption_latency),
       basic_topology_type(TopologyBuildingBlock::Undefined),
       Topology() {
     assert(npus_count > 0);
@@ -22,6 +24,7 @@ BasicTopology::BasicTopology(const int npus_count,
     assert(devices_count >= npus_count);
     assert(bandwidth > 0);
     assert(latency >= 0);
+    assert(encryption_latency >= 0);
 
     // setup npus and devices count
     this->npus_count = npus_count;

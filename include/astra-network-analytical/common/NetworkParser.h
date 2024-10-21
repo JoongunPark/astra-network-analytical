@@ -60,6 +60,13 @@ class NetworkParser {
      */
     [[nodiscard]] std::vector<TopologyBuildingBlock> get_topologies_per_dim() const noexcept;
 
+    /**
+     * Read "encryption latency" value
+     *
+     * @return device encryption latency
+     */
+    [[nodiscard]] std::vector<Latency> get_encryption_latency() const noexcept;
+
   private:
     /// number of network dimensions
     int dims_count;
@@ -75,6 +82,9 @@ class NetworkParser {
 
     /// topology building block per each dimension
     std::vector<TopologyBuildingBlock> topology_per_dim;
+
+    /// latency per each device
+    std::vector<Latency> encryption_latency;
 
     /**
      * Parse topology name (in string) into TopologyBuildingBlock enum

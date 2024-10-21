@@ -41,7 +41,7 @@ class Link {
      * @param bandwidth bandwidth of the link
      * @param latency latency of the link
      */
-    Link(Bandwidth bandwidth, Latency latency) noexcept;
+    Link(Bandwidth bandwidth, Latency latency, Latency encryption_latency) noexcept;
 
     /**
      * Try to send a chunk through the link.
@@ -87,6 +87,9 @@ class Link {
 
     /// latency of the link in ns
     Latency latency;
+
+    /// encryption latency of the link in ns
+    Latency encryption_latency;
 
     /// queue of pending chunks
     std::list<std::unique_ptr<Chunk>> pending_chunks;

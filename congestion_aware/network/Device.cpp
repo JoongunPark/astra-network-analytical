@@ -42,16 +42,17 @@ void Device::send(std::unique_ptr<Chunk> chunk) noexcept {
     links[next_dest_id]->send(std::move(chunk));
 }
 
-void Device::connect(const DeviceId id, const Bandwidth bandwidth, const Latency latency) noexcept {
+void Device::connect(const DeviceId id, const Bandwidth bandwidth, const Latency latency, const Latency encryption_latency) noexcept {
     assert(id >= 0);
     assert(bandwidth > 0);
     assert(latency >= 0);
+    assert(encryption_latency >= 0);
 
     // assert there's no existing connection
     assert(!connected(id));
 
     // create link
-    links[id] = std::make_shared<Link>(bandwidth, latency);
+    links[id] = std::make_shared<Link>(bandwidth, latency, encryption_latency);
 }
 
 bool Device::connected(const DeviceId dest) const noexcept {

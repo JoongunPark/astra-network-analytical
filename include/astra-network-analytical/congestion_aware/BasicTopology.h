@@ -27,7 +27,7 @@ class BasicTopology : public Topology {
      * @param bandwidth bandwidth of each link
      * @param latency latency of each link
      */
-    BasicTopology(int npus_count, int devices_count, Bandwidth bandwidth, Latency latency) noexcept;
+    BasicTopology(int npus_count, int devices_count, Bandwidth bandwidth, Latency latency, Latency encryption_latency) noexcept;
 
     /**
      * Destructor.
@@ -51,6 +51,9 @@ class BasicTopology : public Topology {
 
     /// basic topology type
     TopologyBuildingBlock basic_topology_type;
+
+    /// encryption latency of each device
+    Latency encryption_latency;
 };
 
 }  // namespace NetworkAnalyticalCongestionAware

@@ -49,7 +49,7 @@ class Device {
      * @param bandwidth bandwidth of the link
      * @param latency latency of the link
      */
-    void connect(DeviceId id, Bandwidth bandwidth, Latency latency) noexcept;
+    void connect(DeviceId id, Bandwidth bandwidth, Latency latency, Latency encryption_latency) noexcept;
 
   private:
     /// device Id

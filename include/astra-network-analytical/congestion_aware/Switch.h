@@ -37,7 +37,7 @@ class Switch final : public BasicTopology {
      * @param bandwidth bandwidth of link
      * @param latency latency of link
      */
-    Switch(int npus_count, Bandwidth bandwidth, Latency latency) noexcept;
+    Switch(int npus_count, Bandwidth bandwidth, Latency latency, Latency encryption_latency) noexcept;
 
     /**
      * Implementation of route function in Topology.
